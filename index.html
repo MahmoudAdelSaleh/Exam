@@ -46,6 +46,11 @@
         }
         .grade-card:hover { transform: translateY(-5px); background-color: #0056b3; cursor: pointer; }
         footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 0.9rem; color: #888; }
+        
+        /* إخفاء منطقة البيانات عن المستخدم */
+        #tests-data {
+            display: none;
+        }
     </style>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,6 +59,16 @@
 </head>
 <body>
 
+    <textarea id="tests-data">
+481
+https://example.com/test-link-1
+482
+https://example.com/test-link-2
+191
+https://example.com/test-link-3
+2103
+https://example.com/test-link-4
+    </textarea>
     <div class="container">
         <header>
             <h1>اختبارات دورية في الرياضيات</h1>
@@ -75,26 +90,33 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        // ==================================================================
-        //         مكان إضافة وتعديل الاختبارات (مدمج في الصفحة)
-        // ==================================================================
-        const testLinks = {
-          "182": "https://docs.google.com/forms/d/e/ضع_رابط_اختبار_اولى_اعدادي_اغسطس_اسبوع2_هنا",
-          "481": "https://docs.google.com/forms/d/e/ضع_رابط_اختبار_رابعة_ابتدائي_اغسطس_اسبوع1_هنا",
-          "293": "https://docs.google.com/forms/d/e/ضع_رابط_اختبار_ثانية_اعدادي_سبتمبر_اسبوع3_هنا",
-          "6104": "https://docs.google.com/forms/d/e/ضع_رابط_اختبار_سادسة_ابتدائي_اكتوبر_اسبوع4_هنا"
-        };
-        // ==================================================================
+        // دالة لتحليل البيانات من المنطقة النصية
+        function parseTestsData() {
+            const dataArea = document.getElementById('tests-data');
+            const lines = dataArea.value.trim().split('\n');
+            const links = {};
+            
+            for (let i = 0; i < lines.length; i += 2) {
+                const code = lines[i].trim();
+                const url = lines[i + 1] ? lines[i + 1].trim() : null;
+                
+                if (code && url) {
+                    links[code] = url;
+                }
+            }
+            return links;
+        }
 
+        const testLinks = parseTestsData();
 
-        // تعريف رموز الصفوف الجديدة
+        // تعريف رموز الصفوف 
         const grades = [
-            { name: "الصف الرابع الابتدائي", id: 4 },
-            { name: "الصف الخامس الابتدائي", id: 5 },
-            { name: "الصف السادس الابتدائي", id: 6 },
-            { name: "الصف الأول الإعدادي", id: 1 },
-            { name: "الصف الثاني الإعدادي", id: 2 },
-            { name: "الصف الثالث الإعدادي", id: 3 }
+            { name: "الصف الرابع الابتدائي" },
+            { name: "الصف الخامس الابتدائي" },
+            { name: "الصف السادس الابتدائي" },
+            { name: "الصف الأول الإعدادي" },
+            { name: "الصف الثاني الإعدادي" },
+            { name: "الصف الثالث الإعدادي" }
         ];
 
         const gradesContainer = document.getElementById('grades-container');
@@ -107,7 +129,6 @@
             card.textContent = grade.name;
             card.dataset.gradeName = grade.name;
             gradesContainer.appendChild(card);
-
             card.addEventListener('click', handleGradeClick);
         });
 
@@ -116,16 +137,13 @@
             event.preventDefault(); 
 
             const gradeName = this.dataset.gradeName;
-
-            // طلب الكود من المستخدم بدون اقتراح
             const code = prompt(`للدخول لاختبار "${gradeName}"\n\nالرجاء إدخال الكود:`);
 
             if (code === null || code.trim() === "") {
-                return; // إذا ضغط المستخدم على "إلغاء" أو لم يكتب شيئاً
+                return;
             }
 
-            // البحث عن الرابط المطابق للكود
-            const url = testLinks[code];
+            const url = testLinks[code.trim()];
 
             if (url) {
                 alert("تم التحقق. سيتم فتح الاختبار الآن.");
