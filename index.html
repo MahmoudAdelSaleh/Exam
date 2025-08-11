@@ -1,1 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبارات دورية في الرياضيات</title>
+    
+    <style>
+        /* ضبط أساسيات الصفحة */
+        body {
+            font-family: 'Tajawal', sans-serif; /* تم إضافة خط بديل في حال عدم توفر الخط الرئيسي */
+            direction: rtl;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        /* تنسيق العناوين */
+        header h1 {
+            color: #0056b3;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+
+        header h2 {
+            color: #555;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-top: 0;
+        }
+
+        .instructions {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* شبكة الصفوف */
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        /* بطاقة الصف الدراسي */
+        .grade-card {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .grade-card:hover {
+            transform: translateY(-5px);
+            background-color: #0056b3;
+            cursor: pointer;
+        }
+
+        /* التذييل */
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.9rem;
+            color: #888;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>اختبارات دورية في الرياضيات</h1>
+            <h2>للمرحلة الابتدائية والإعدادية</h2>
+        </header>
+        
+        <main>
+            <p class="instructions">اختر الصف الدراسي ثم أدخل الكود المكون من 3 أرقام لفتح الاختبار.</p>
+            
+            <div class="grades-grid">
+                <a href="#" class="grade-card" data-grade-name="الصف الرابع الابتدائي">الصف الرابع الابتدائي</a>
+                <a href="#" class="grade-card" data-grade-name="الصف الخامس الابتدائي">الصف الخامس الابتدائي</a>
+                <a href="#" class="grade-card" data-grade-name="الصف السادس الابتدائي">الصف السادس الابتدائي</a>
+                
+                <a href="#" class="grade-card" data-grade-name="الصف الأول الإعدادي">الصف الأول الإعدادي</a>
+                <a href="#" class="grade-card" data-grade-name="الصف الثاني الإعدادي">الصف الثاني الإعدادي</a>
+                <a href="#" class="grade-card" data-grade-name="الصف الثالث الإعدادي">الصف الثالث الإعدادي</a>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 - جميع الحقوق محفوظة</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ==================================================================
+            //                  قاعدة بيانات روابط الاختبارات
+            // ==================================================================
+            // هنا تقوم بوضع الأكواد وروابط نماذج جوجل الخاصة بك
+            // شكل الكود: رقم الصف + رقم الشهر + رقم الأسبوع
+            // مثال: كود 491 هو للصف الرابع، شهر سبتمبر (9)، الأسبوع الأول
+            // ملاحظة: الصف الأول الإعدادي = 7، الثاني = 8، الثالث = 9
+            // ==================================================================
+            const testLinks = {
+                // --- نماذج الصف الرابع الابتدائي ---
+                "491": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform", // سبتمبر - الأسبوع 1
+                "492": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform", // سبتمبر - الأسبوع 2
+
+                // --- نماذج الصف الخامس الابتدائي ---
+                "591": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform", // سبتمبر - الأسبوع 1
+
+                // --- نماذج الصف السادس الابتدائي ---
+                "691": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform", 
+
+                // --- نماذج الصف الأول الإعدادي (نستخدم رقم 7) ---
+                "791": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform",
+
+                // --- نماذج الصف الثاني الإعدادي (نستخدم رقم 8) ---
+                "891": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform",
+
+                // --- نماذج الصف الثالث الإعدادي (نستخدم رقم 9) ---
+                "991": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform",
+
+                // أضف المزيد من الأكواد والروابط هنا...
+            };
+
+            const gradeCards = document.querySelectorAll('.grade-card');
+
+            gradeCards.forEach(card => {
+                card.addEventListener('click', function(event) {
+                    event.preventDefault(); // منع الرابط من الانتقال
+
+                    const gradeName = this.getAttribute('data-grade-name');
+                    const code = prompt(`الرجاء إدخال كود الاختبار الخاص بـ "${gradeName}":`);
+
+                    if (code === null || code.trim() === "") {
+                        // المستخدم أغلق النافذة أو لم يكتب شيئاً
+                        return;
+                    }
+
+                    // البحث عن الرابط المطابق للكود
+                    const url = testLinks[code];
+
+                    if (url) {
+                        // إذا تم العثور على الرابط، افتحه في نافذة جديدة
+                        alert("تم التحقق من الكود. سيتم فتح الاختبار الآن.");
+                        window.open(url, '_blank');
+                    } else {
+                        // إذا كان الكود خاطئاً
+                        alert("الكود الذي أدخلته غير صحيح. الرجاء التأكد والمحاولة مرة أخرى.");
+                    }
+                });
+            });
+        });
+    </script>
+    </body>
+</html>
 
