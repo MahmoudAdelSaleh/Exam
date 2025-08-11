@@ -46,7 +46,6 @@
         }
         .grade-card:hover { transform: translateY(-5px); background-color: #0056b3; cursor: pointer; }
         footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 0.9rem; color: #888; }
-        .loading-message { font-size: 1.2rem; color: #0056b3; font-weight: bold; }
     </style>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,8 +64,7 @@
             <p class="instructions">اختر الصف. سيظهر لك كود الأسبوع الحالي تلقائيًا، أو أدخل كودًا قديمًا.</p>
             
             <div id="grades-container" class="grades-grid">
-                <p id="loading" class="loading-message">جاري تحميل بيانات الاختبارات...</p>
-            </div>
+                </div>
         </main>
         
         <footer>
@@ -75,47 +73,35 @@
     </div>
 
     <script>
-    // ==================================================================
-    //                  الإعدادات الرئيسية
-    // ==================================================================
+    document.addEventListener('DOMContentLoaded', function() {
 
-    // 1. ضع رابط Dropbox المباشر هنا
-    const dropboxUrl = "هذا هو الرابط المباشر. لاحظ أنه مطابق للرابط السابق، فقط مع تغيير رمز الجلسة المؤقت الذي لا يؤثر على الرابط المباشر النهائي.
-الرابط المباشر للاستخدام في الكود هو:
-https://dl.dropboxusercontent.com/scl/fi/op3wyzae8zcwtg266k5bo/tests.json";
+        // ==================================================================
+        //         مكان إضافة وتعديل الاختبارات (مدمج في الصفحة)
+        // ==================================================================
+        // أضف الأكواد والروابط هنا مباشرة.
+        // تذكر وضع فاصلة (,) بعد كل سطر ما عدا الأخير.
+        const testLinks = {
+          "182": "https://docs.google.com/forms/d/e/ضع_رابط_اختبار_اولى_اعدادي_اغسطس_اسبوع2_هنا",
+          "481": "https://docs.google.com/forms/d/e/ضع_رابط_اختبار_رابعة_ابتدائي_اغسطس_اسبوع1_هنا",
+          "293": "https://docs.google.com/forms/d/e/ضع_رابط_اختبار_ثانية_اعدادي_سبتمبر_اسبوع3_هنا",
+          "6104": "https://docs.google.com/forms/d/e/ضع_رابط_اختبار_سادسة_ابتدائي_اكتوبر_اسبوع4_هنا"
+        };
+        // ==================================================================
 
-    // 2. تعريف رموز الصفوف الجديدة
-    const grades = [
-        { name: "الصف الرابع الابتدائي", id: 4 },
-        { name: "الصف الخامس الابتدائي", id: 5 },
-        { name: "الصف السادس الابتدائي", id: 6 },
-        { name: "الصف الأول الإعدادي", id: 1 },
-        { name: "الصف الثاني الإعدادي", id: 2 },
-        { name: "الصف الثالث الإعدادي", id: 3 }
-    ];
 
-    // ==================================================================
+        // تعريف رموز الصفوف الجديدة
+        const grades = [
+            { name: "الصف الرابع الابتدائي", id: 4 },
+            { name: "الصف الخامس الابتدائي", id: 5 },
+            { name: "الصف السادس الابتدائي", id: 6 },
+            { name: "الصف الأول الإعدادي", id: 1 },
+            { name: "الصف الثاني الإعدادي", id: 2 },
+            { name: "الصف الثالث الإعدادي", id: 3 }
+        ];
 
-    document.addEventListener('DOMContentLoaded', async function() {
-        let testLinks = {};
         const gradesContainer = document.getElementById('grades-container');
-        const loadingMessage = document.getElementById('loading');
 
-        // --- جلب بيانات الاختبارات من Dropbox ---
-        try {
-            const response = await fetch(dropboxUrl);
-            if (!response.ok) {
-                throw new Error('فشل تحميل الملف من Dropbox. تأكد من صحة الرابط.');
-            }
-            testLinks = await response.json();
-            loadingMessage.style.display = 'none'; // إخفاء رسالة التحميل
-        } catch (error) {
-            loadingMessage.textContent = 'خطأ: ' + error.message;
-            console.error(error);
-            return; // إيقاف التنفيذ في حال وجود خطأ
-        }
-
-        // --- إنشاء بطاقات الصفوف بعد تحميل البيانات ---
+        // إنشاء بطاقات الصفوف 
         grades.forEach(grade => {
             const card = document.createElement('a');
             card.href = '#';
@@ -128,14 +114,14 @@ https://dl.dropboxusercontent.com/scl/fi/op3wyzae8zcwtg266k5bo/tests.json";
             card.addEventListener('click', handleGradeClick);
         });
 
-        // --- دالة التعامل مع ضغطات المستخدم ---
+        // دالة التعامل مع ضغطات المستخدم
         function handleGradeClick(event) {
             event.preventDefault(); 
 
             const gradeId = this.dataset.gradeId;
             const gradeName = this.dataset.gradeName;
 
-            // --- حساب الكود التلقائي للتاريخ الحالي ---
+            // حساب الكود التلقائي للتاريخ الحالي
             const now = new Date();
             const month = now.getMonth() + 1; // getMonth() returns 0-11
             const day = now.getDate();
@@ -148,14 +134,14 @@ https://dl.dropboxusercontent.com/scl/fi/op3wyzae8zcwtg266k5bo/tests.json";
 
             const automaticCode = `${gradeId}${month}${week}`;
 
-            // --- طلب الكود من المستخدم مع اقتراح الكود التلقائي ---
+            // طلب الكود من المستخدم مع اقتراح الكود التلقائي
             const code = prompt(`اختبارات "${gradeName}"\nالكود المقترح للأسبوع الحالي هو: ${automaticCode}\n\nأدخل الكود المطلوب للوصول للاختبار:`, automaticCode);
 
             if (code === null || code.trim() === "") {
                 return;
             }
 
-            // --- البحث عن الرابط المطابق للكود ---
+            // البحث عن الرابط المطابق للكود
             const url = testLinks[code];
 
             if (url) {
