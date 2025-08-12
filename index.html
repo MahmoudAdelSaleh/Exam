@@ -4,155 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختبارات دورية في الرياضيات</title>
-    
-    <style>
-        body {
-            font-family: 'Tajawal', sans-serif;
-            direction: rtl;
-            background-color: #f0f4f8;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 800px;
-            text-align: center;
-        }
-        header h1 { color: #0056b3; font-size: 2.5rem; margin-bottom: 5px; }
-        header h2 { color: #555; font-size: 1.5rem; font-weight: 400; margin-top: 0; }
-        .instructions { font-size: 1.1rem; color: #666; margin-bottom: 30px; }
-        .grades-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-        .grade-card {
-            background-color: #007bff;
-            color: #ffffff;
-            padding: 25px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 1.3rem;
-            font-weight: 700;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .grade-card:hover { transform: translateY(-5px); background-color: #0056b3; cursor: pointer; }
-        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 0.9rem; color: #888; }
-        
-        /* إخفاء منطقة البيانات عن المستخدم */
-        #tests-data {
-            display: none;
-        }
-    </style>
-    
+
+    <link rel="stylesheet" href="style.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <textarea id="tests-data">
-481
-https://example.com/test-link-1
-482
-https://example.com/test-link-2
-191
-https://example.com/test-link-3
-2103
-https://example.com/test-link-4
-    </textarea>
     <div class="container">
         <header>
             <h1>اختبارات دورية في الرياضيات</h1>
             <h2>للمرحلة الابتدائية والإعدادية</h2>
         </header>
-        
+
         <main>
             <p class="instructions">اختر الصف الدراسي ثم أدخل الكود لفتح الاختبار.</p>
             
             <div id="grades-container" class="grades-grid">
                 </div>
         </main>
-        
+
         <footer>
             <p>&copy; 2025 - جميع الحقوق محفوظة</p>
         </footer>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-
-        // دالة لتحليل البيانات من المنطقة النصية
-        function parseTestsData() {
-            const dataArea = document.getElementById('tests-data');
-            const lines = dataArea.value.trim().split('\n');
-            const links = {};
-            
-            for (let i = 0; i < lines.length; i += 2) {
-                const code = lines[i].trim();
-                const url = lines[i + 1] ? lines[i + 1].trim() : null;
-                
-                if (code && url) {
-                    links[code] = url;
-                }
-            }
-            return links;
-        }
-
-        const testLinks = parseTestsData();
-
-        // تعريف رموز الصفوف 
-        const grades = [
-            { name: "الصف الرابع الابتدائي" },
-            { name: "الصف الخامس الابتدائي" },
-            { name: "الصف السادس الابتدائي" },
-            { name: "الصف الأول الإعدادي" },
-            { name: "الصف الثاني الإعدادي" },
-            { name: "الصف الثالث الإعدادي" }
-        ];
-
-        const gradesContainer = document.getElementById('grades-container');
-
-        // إنشاء بطاقات الصفوف 
-        grades.forEach(grade => {
-            const card = document.createElement('a');
-            card.href = '#';
-            card.className = 'grade-card';
-            card.textContent = grade.name;
-            card.dataset.gradeName = grade.name;
-            gradesContainer.appendChild(card);
-            card.addEventListener('click', handleGradeClick);
-        });
-
-        // دالة التعامل مع ضغطات المستخدم
-        function handleGradeClick(event) {
-            event.preventDefault(); 
-
-            const gradeName = this.dataset.gradeName;
-            const code = prompt(`للدخول لاختبار "${gradeName}"\n\nالرجاء إدخال الكود:`);
-
-            if (code === null || code.trim() === "") {
-                return;
-            }
-
-            const url = testLinks[code.trim()];
-
-            if (url) {
-                alert("تم التحقق. سيتم فتح الاختبار الآن.");
-                window.open(url, '_blank');
-            } else {
-                alert("الكود الذي أدخلته غير صحيح أو أن الاختبار غير متاح بعد. ارجع إلى مذاكرتك.");
-            }
-        }
-    });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
